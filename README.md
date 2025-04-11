@@ -73,6 +73,11 @@ Getting local zone records .corp will be directed to the internal PowerDNS autho
 The configuration of the Adguard Home in upstream_mode: parallel mode is shown.
 You can clear the adguard home folder and install it via the web panel yourself.
 
+`Default Adguard Home  admin:admin in adguardhome\confdir\AdGuardHome.yaml`
+Use it to create a new password:
+```
+htpasswd -bnBC 10 "" "admin" | tr -d ':\n'
+```
 
 ## 📁 Examples of directories
 
