@@ -1,4 +1,9 @@
+Scheme
 ![powerdns+adguard.png](https://github.com/PRVTPRO/adguard-powerdns/blob/main/PowerDNS+AdGuard.png?raw=true)
+Adguard Home panel
+![Adguard Panel](https://camo.githubusercontent.com/ffaa65652afd9d7fef0a8db16a7573cff81efe6f6d35b22d7167c6eb86561864/68747470733a2f2f63646e2e6164746964792e6f72672f7075626c69632f416467756172642f436f6d6d6f6e2f616467756172645f686f6d652e676966)
+Powerdns Admin Panel
+![powerdns+adguard.png](https://miro.medium.com/v2/resize:fit:720/format:webp/1*OSsupKBy65p0dbek7je2GA.png)
 
 ## 🚀 Build and launch 
 1) Cloning repositories 
