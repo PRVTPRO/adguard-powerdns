@@ -2,7 +2,7 @@
 1) Cloning repositories 
 2) Let's make our own changes .env
    
-``
+```
 # Adam-PowerDNS Panel-Administrator
 ADMIN_PDNS_API_KEY=api-secret-authoritative
 ADMIN_USER_PASSWORD=very secret
