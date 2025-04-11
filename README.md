@@ -1,3 +1,5 @@
+![powerdns+adguard.png](https://github.com/PRVTPRO/adguard-powerdns/blob/main/PowerDNS+AdGuard.png?raw=true)
+
 ## 🚀 Build and launch 
 1) Cloning repositories 
 2) Let's make our own changes .env
