@@ -1,0 +1,84 @@
+services:
+
+  admin:
+    build: admin
+    image: powerdns-admin:latest
+    depends_on:
+      - admin-db
+      - authoritative
+    environment:
+      - ADMIN_PDNS_API_KEY=${ADMIN_PDNS_API_KEY}
+      - ADMIN_USER_PASSWORD=${ADMIN_USER_PASSWORD}
+    networks:
+      - admin-db
+      - authoritative
+    ports:
+      - "3031:3031"
+
+  admin-db:
+    image: postgres:12.1-alpine
+    environment:
+      - POSTGRES_DB=pda
+      - POSTGRES_INITDB_ARGS=--data-checksums
+      - POSTGRES_PASSWORD=${ADMIN_DB_PASSWORD}
+      - POSTGRES_USER=pda
+    networks:
+      - admin-db
+
+  authoritative:
+    build: authoritative
+    image: powerdns-authoritative:latest
+    depends_on:
+      - authoritative-db
+    environment:
+      - AUTHORITATIVE_API=yes
+      - AUTHORITATIVE_API_KEY=${AUTHORITATIVE_API_KEY}
+      - AUTHORITATIVE_WEBSERVER=yes
+      - AUTHORITATIVE_WEBSERVER_PASSWORD=${AUTHORITATIVE_WEBSERVER_PASSWORD}
+    networks:
+      authoritative:
+        ipv4_address: 172.31.118.118
+      authoritative-db:
+    ports:
+      - "8081:8081/tcp"
+
+  authoritative-db:
+    image: postgres:12.1-alpine
+    environment:
+      - POSTGRES_DB=pdns
+      - POSTGRES_INITDB_ARGS=--data-checksums
+      - POSTGRES_PASSWORD=${AUTHORITATIVE_DB_PASSWORD}
+      - POSTGRES_USER=pdns
+    networks:
+      - authoritative-db
+
+  adguardhome:
+    image: adguard/adguardhome:latest
+    restart: unless-stopped
+    volumes:
+      - ./adguardhome/workdir:/opt/adguardhome/work
+      - ./adguardhome/confdir:/opt/adguardhome/conf
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"
+      - "443:443/udp"
+      - "3000:3000/tcp"
+    networks:
+      authoritative:
+        ipv4_address: 172.31.118.120
+
+networks:
+  admin-db:
+  authoritative:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.31.118.0/24"
+  authoritative-db:
+  recursor:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.31.117.0/24"
