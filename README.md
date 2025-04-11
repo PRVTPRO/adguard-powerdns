@@ -1,6 +1,7 @@
 ## 🚀 Build and launch 
 1) Cloning repositories 
 2) Let's make our own changes .env
+   
 ``
 # Adam-PowerDNS Panel-Administrator
 ADMIN_PDNS_API_KEY=api-secret-authoritative
@@ -15,52 +16,57 @@ AUTHORITATIVE_WEB SERVER_PASSWORD=web secret-authoritative
 
 # PowerDNS database
 AUTHORITATIVE_DB_PASSWORD=IDENTIFICATION data
-
 ```
+
 3) We do what is necessary
 
 Build and launch all the services
-``
-docker-compose -build -d
-' `
-If the images already exist and do not need to be reassembled:
-``
-docker layout
 ```
-For the girl, only the administrator:
-``
-docker is the administrator of the compose build
+docker-compose -build -d
+```
+If the images already exist and do not need to be rebuilt:
+```
+docker-compose up -d
+```
+For rebuilding only admin:
+```
+docker-compose build admin
 ```
 For the authoritative:
-``
-authoritative docker-compose build
-
+```
+docker-compose build authoritative
+```
 Then you can do the following:
 
-    #change .env_sample to .env and replace variable
+```
+#change .env_sample to .env and replace variable
 
-    # start powerdns stack
-    docker compose up -d
+# start powerdns stack
+docker compose up -d
+
+# send DNS queries to Adguard Home 
+dig -p 53 example.com
+
+# PowerDNS admin interface
+http://localhost:3031
+
+# PowerDNS authoritative stats
+http://localhost:8081
     
-    # send DNS queries to Adguard Home 
-    dig -p 53 example.com
-
-    # PowerDNS admin interface
-    http://localhost:3031
-    
-    # PowerDNS authoritative stats
-    http://localhost:8081
-
+```
 
 It will be configured to receive DoH from the following points
-    - https://dns10.quad9.net/dns-query
-    - https://dns.google/dns-query
-    - https://cloudflare-dns.com/dns-query
-    - https://common.dot.dns.yandex.net/dns-query
+```
+- https://dns10.quad9.net/dns-query
+- https://dns.google/dns-query
+- https://cloudflare-dns.com/dns-query
+- https://common.dot.dns.yandex.net/dns-query
+```
 
 Getting local zone records .corp will be directed to the internal PowerDNS authoritative
-    - '[/corp/]172.31.118.118:53'
-
+```
+- '[/corp/]172.31.118.118:53'
+```
 
 The configuration of the Adguard Home in upstream_mode: parallel mode is shown.
 You can clear the adguard home folder and install it via the web panel yourself.
@@ -74,7 +80,7 @@ You can clear the adguard home folder and install it via the web panel yourself.
 - `docker-compose.yml` - compilation and launch of services.
 
 ## Variables to deploy
-
+```
 ### Admin
 
 | Env-Variable         | Description                                              |
@@ -134,6 +140,6 @@ You can clear the adguard home folder and install it via the web panel yourself.
 | AUTHORITATIVE_TCP_FAST_OPEN               | Enable TCP Fast Open support on the listening sockets (default: 0)                                                                      |
 | AUTHORITATIVE_WEBSERVER                   | Start a webserver for monitoring on port 8081 (default: no)                                                                             |
 | AUTHORITATIVE_WEBSERVER_PASSWORD          | Password required for accessing the webserver (default: pdns)                                                                           |
-
+```
 
 A simple example of running Adguard Home and redirecting requests to the local PowerDNS authoritative and to external DoH providers.  This is just an example of a quick start. To get the best results, do the reconstruction yourself.
